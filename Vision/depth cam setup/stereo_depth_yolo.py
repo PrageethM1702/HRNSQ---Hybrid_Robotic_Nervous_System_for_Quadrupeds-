@@ -8,8 +8,8 @@ RIGHT_URL = "streamID"
 capL = cv2.VideoCapture(LEFT_URL)
 capR = cv2.VideoCapture(RIGHT_URL)
 
-BASELINE = 0.065# meters (camera distance)
-FOCAL_LEN = 500# approx (calibrate later!)
+BASELINE = 000# distance between dual cam setup (m)
+FOCAL_LEN = 000# need calibration before deploy
 
 stereo = cv2.StereoBM_create(numDisparities=96, blockSize=15)
 
