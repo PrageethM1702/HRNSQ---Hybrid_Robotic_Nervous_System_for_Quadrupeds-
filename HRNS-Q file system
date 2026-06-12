@@ -29,24 +29,18 @@ HRNS-Q/
 ├── 2_ACTUATION_SYSTEM/
 │   ├── motors/
 │   │   ├── servo_specs.pdf
-│   │   └── bldc_specs.pdf
+│   │   
 │   ├── drivers/
-│   │   ├── BTS7960/
+│   │   ├── PCA9685/
 │   │   │   ├── schematic.kicad_sch
 │   │   │   └── pcb.kicad_pcb
-│   │   ├── ESC/
-│   │   │   ├── esc_interface.sch
-│   │   │   └── esc_calibration.md
-│   │   └── current_sensing/
-│   │       ├── INA219.sch
-│   │       └── current_filter.sch
 │
 ├── 3_POWER_SYSTEM/
 │   ├── battery/
 │   │   ├── battery_pack_config.md
 │   │   └── bms_wiring.png
 │   ├── regulation/
-│   │   ├── buck_24V_to_12V.sch
+│   │   ├── buck
 │   │   ├── buck_12V_to_5V.sch
 │   │   ├── ldo_3V3.sch
 │   │   └── isolated_dc_dc.sch
@@ -60,27 +54,17 @@ HRNS-Q/
 │
 ├── 4_SENSING_SYSTEM/
 │   ├── proprioceptive/
-│   │   ├── joint_angle/
-│   │   │   ├── potentiometer.sch
-│   │   │   └── AS5600.sch
-│   │   ├── motor_current/
-│   │   │   └── current_to_adc.sch
 │   │   └── temperature/
 │   │       └── ntc_sensor.sch
 │   ├── exteroceptive/
 │   │   ├── foot_pressure/
 │   │   │   ├── fsr_conditioning.sch
-│   │   │   └── piezo_amplifier.sch
 │   │   ├── distance/
-│   │   │   ├── ultrasonic.sch
 │   │   │   └── tof_VL53L0X.sch
 │   │   ├── vision/
 │   │   │   └── esp32_cam_interface.sch
 │   │   └── imu/
 │   │       └── imu_fusion.sch
-│   └── bio_inspired/
-│       ├── stretch_sensor.sch
-│       └── tactile_array.sch
 │
 ├── 5_REFLEX_SYSTEM/
 │   ├── hardware_reflex/
@@ -202,14 +186,8 @@ HRNS-Q/
 │       └── websocket_server.py
 │
 ├── 14_SIMULATION_TRAINING/
-│   ├── gazebo/
-│   │   ├── robot.urdf
-│   │   ├── world.world
-│   │   └── plugins/
 │   ├── pybullet/
 │   │   └── hrnsq_env.py
-│   ├── isaac_gym/
-│   │   └── hrnsq_rl_env.py
 │   └── sim_to_real/
 │       ├── domain_randomization.py
 │       └── noise_models.py
