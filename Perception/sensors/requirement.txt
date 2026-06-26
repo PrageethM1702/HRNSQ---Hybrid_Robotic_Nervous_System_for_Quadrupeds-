@@ -1,0 +1,16 @@
+sudo apt update  
+sudo apt install python3-full python3-venv
+sudo apt install python3-opencv
+python3 -m venv hrnsq_env
+source hrnsq_env/bin/activate
+pip install adafruit-blinka
+pip install smbus2
+pip install BMI160-i2c
+pip install adafruit-circuitpython-bmp280
+pip install adafruit-circuitpython-sgp30
+pip install adafruit-circuitpython-si7021
+pip install adafruit-circuitpython-mlx90614
+pip install adafruit-circuitpython-ads1x15
+pip install adafruit-circuitpython-servokit
+pip install pynmea2
+pip install numpy
