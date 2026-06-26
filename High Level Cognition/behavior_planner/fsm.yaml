@@ -1,0 +1,31 @@
+states:
+  idle:
+    on_start: stand
+    transitions:
+      walk: locomotion
+      explore: exploration
+      low_battery: shutdown
+  locomotion:
+    on_start: trot
+    transitions:
+      obstacle: avoid_obstacle
+      fault: recover
+      stop: idle
+  exploration:
+    on_start: scan
+    transitions:
+      path_found: locomotion
+      fault: recover
+      stop: idle
+  avoid_obstacle:
+    on_start: step_around
+    transitions:
+      clear: locomotion
+      blocked: recover
+  recover:
+    on_start: stabilize
+    transitions:
+      stable: idle
+      critical: shutdown
+  shutdown:
+    on_start: power_down

@@ -1,0 +1,20 @@
+<root main_tree_to_execute="HRNSQ">
+  <BehaviorTree ID="HRNSQ">
+    <Fallback name="root">
+      <Sequence name="shutdown_guard">
+        <Condition ID="LowBattery"/>
+        <Action ID="SafeShutdown"/>
+      </Sequence>
+      <Sequence name="recovery_guard">
+        <Condition ID="FaultDetected"/>
+        <Action ID="Stabilize"/>
+      </Sequence>
+      <Sequence name="walk_task">
+        <Condition ID="PathAvailable"/>
+        <Action ID="SelectGait"/>
+        <Action ID="TrackPath"/>
+      </Sequence>
+      <Action ID="Stand"/>
+    </Fallback>
+  </BehaviorTree>
+</root>
