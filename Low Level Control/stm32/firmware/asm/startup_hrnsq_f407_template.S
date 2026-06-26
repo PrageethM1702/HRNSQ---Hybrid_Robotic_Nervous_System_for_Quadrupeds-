@@ -1,8 +1,3 @@
-/* HRNS-Q STM32F407 startup template
- * Use as a reference if STM32CubeIDE already generates startup_stm32f407xx.s.
- * Do not compile two startup files in the same firmware target.
- */
-
     .syntax unified
     .cpu cortex-m4
     .thumb

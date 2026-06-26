@@ -1,8 +1,3 @@
-/* HRNS-Q Cortex M4 helper routines
- * Target: STM32F407 / ARM Cortex M4
- * Syntax: GNU assembler
- */
-
     .syntax unified
     .cpu cortex-m4
     .thumb

@@ -1,8 +1,3 @@
-/* HRNS-Q fast GPIO operations for STM32 GPIOx_BSRR
- * r0: GPIO peripheral base address
- * r1: pin mask, for example 1 << 5
- */
-
     .syntax unified
     .cpu cortex-m4
     .thumb

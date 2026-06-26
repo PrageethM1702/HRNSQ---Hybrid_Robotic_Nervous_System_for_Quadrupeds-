@@ -10,7 +10,7 @@ from pathlib import Path
 try:
     import cv2
     import numpy as np
-except Exception as exc:  # pragma: no cover - hardware runtime fallback
+except Exception as exc:
     cv2 = None
     np = None
     IMPORT_ERROR = exc

@@ -1,10 +1,3 @@
-"""
-Classical HRNS-Q locomotion helpers.
-
-This module is intentionally non-AI: it combines fixed gait phase tables with
-2-link inverse kinematics and keeps hip/abduction motors frozen at neutral.
-"""
-
 from __future__ import annotations
 
 from dataclasses import dataclass

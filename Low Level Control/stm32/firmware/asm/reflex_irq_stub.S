@@ -1,9 +1,3 @@
-/* HRNS-Q reflex interrupt stub
- * This is a minimal EXTI entry pattern for fast reflex signal capture.
- * The actual handler should clear the EXTI pending bit in C or in a board
- * specific assembly routine after reading the active line.
- */
-
     .syntax unified
     .cpu cortex-m4
     .thumb

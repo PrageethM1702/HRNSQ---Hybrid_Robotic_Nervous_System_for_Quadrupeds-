@@ -2,8 +2,6 @@ import serial
 import pynmea2
 import time
 
-# Baud rate for NEO-6M is 9600
-# /dev/serial0 points to GPIO 14/15 (UART)
 ser = serial.Serial("/dev/serial0", baudrate=9600, timeout = 1)
 
 def read_gps():

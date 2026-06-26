@@ -17,7 +17,6 @@
 
 static const char *TAG = "ESP32_CAM";
 
-/*CAMERA PINS (AI-Thinker / RHYX-M21-45)*/
 #define PWDN_GPIO_NUM     32
 #define RESET_GPIO_NUM    -1
 #define XCLK_GPIO_NUM      0

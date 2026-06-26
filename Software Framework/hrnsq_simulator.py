@@ -1,26 +1,3 @@
-"""
-HRNS-Q Telemetry Simulator
-==========================
-Streams realistic quadruped robot telemetry over WebSocket.
-Binds to 127.0.0.1:9001 (avoids IPv6 issues on Windows).
-
-Sensor ranges based on published quadruped research:
-  - IMU / Accel:    MPU-9250 class, ±16g, gyro ±2000 dps
-  - FSR foot load:  0-150 N per leg (body ~12 kg robot)
-  - CPG frequency:  1.5-3.0 Hz trot gait
-  - GPS:            U-blox NEO-M8N class
-  - Battery:        4S LiPo 14.8 V nominal, 16.8 V full
-  - Servo PWM:      PCA9685, 8 x 180-degree servos, hip motors frozen/not fitted
-  - Power:          ~35 W standby, ~120 W dynamic
-
-Usage:
-    python hrnsq_simulator.py
-    python hrnsq_simulator.py --mode stand
-    python hrnsq_simulator.py --mode explore
-
-Dashboard WebSocket URL: ws://127.0.0.1:9001
-"""
-
 import asyncio
 from pathlib import Path
 import json
@@ -43,9 +20,6 @@ PORT = 9001
 TICK_HZ  = 10
 TICK_SEC = 1.0 / TICK_HZ
 
-# ---------------------------------------------------------------------------
-# Robot state
-# ---------------------------------------------------------------------------
 class RobotState:
     def __init__(self, mode="walk"):
         self.t           = 0.0
@@ -69,9 +43,6 @@ class RobotState:
         if len(self.log_buffer) > 30:
             self.log_buffer.pop(0)
 
-# ---------------------------------------------------------------------------
-# Utility
-# ---------------------------------------------------------------------------
 def noise(scale=1.0):
     return random.gauss(0, scale)
 
@@ -81,12 +52,8 @@ def clamp(v, lo, hi):
 def sin_wave(t, freq=1.0, amp=1.0, phase=0.0):
     return amp * math.sin(2 * math.pi * freq * t + phase)
 
-# ---------------------------------------------------------------------------
-# Subsystem builders
-# ---------------------------------------------------------------------------
 
 def build_gps(t):
-    # U-blox NEO-M8N near Maharagama, Sri Lanka
     lat = 6.8535 + (t * 0.000002) + noise(0.000001)
     lon = 79.9220 + noise(0.000001)
     return {
@@ -101,7 +68,6 @@ def build_gps(t):
 
 
 def build_accelerometer(t, mode):
-    # Body frame: x=forward, y=left, z=up. Stand: near static. Walk: CPG oscillation.
     if mode == "stand":
         ax = noise(0.05)
         ay = noise(0.05)
@@ -115,7 +81,6 @@ def build_accelerometer(t, mode):
 
 
 def build_gyroscope(t, mode):
-    # rad/s. Trot: ~+-0.28 rad/s roll/pitch.
     if mode == "stand":
         return {"x": round(noise(0.005), 4),
                 "y": round(noise(0.005), 4),
@@ -129,7 +94,6 @@ def build_gyroscope(t, mode):
 
 
 def build_attitude(t, mode):
-    # Euler angles in degrees
     if mode == "stand":
         roll  = noise(0.2)
         pitch = noise(0.2)
@@ -149,7 +113,6 @@ def build_attitude(t, mode):
 
 
 def build_foot_pressure(t, mode, state):
-    # FSR 0-1 normalised; 12 kg robot ~30 N per leg in stance; trot diagonal pairs
     legs = ["FL", "FR", "RL", "RR"]
     feet = {}
     f    = 2.0 if mode != "stand" else 0.0
@@ -175,7 +138,6 @@ def build_foot_pressure(t, mode, state):
 
 
 def build_cpg(t, mode):
-    # Central Pattern Generator - trot diagonal 2 Hz
     if mode == "stand":
         return {"frequency_hz": 0.0,
                 "phase": {"FL": 0.0, "FR": 0.0, "RL": 0.0, "RR": 0.0}}
@@ -294,9 +256,6 @@ def build_logs(state, ai, vision):
         state.add_log("WARN", f"LOW BATTERY: {state.battery_cap:.1f}%")
     return state.log_buffer
 
-# ---------------------------------------------------------------------------
-# Main frame assembler
-# ---------------------------------------------------------------------------
 def build_frame(state):
     t      = state.t
     mode   = state.mode
@@ -369,9 +328,6 @@ def build_frame(state):
         "logs": logs,
     }
 
-# ---------------------------------------------------------------------------
-# WebSocket handler
-# ---------------------------------------------------------------------------
 async def handler(websocket, mode_ref):
     state = RobotState(mode_ref[0])
     state.add_log("INFO", "HRNS-Q boot complete — telemetry online")
@@ -401,9 +357,6 @@ async def handler(websocket, mode_ref):
     except websockets.exceptions.ConnectionClosed:
         print(f"[HRNS-Q] Client disconnected: {websocket.remote_address}")
 
-# ---------------------------------------------------------------------------
-# Entry point
-# ---------------------------------------------------------------------------
 async def main(port, mode):
     mode_ref = [mode]
     print("╔══════════════════════════════════════════╗")
@@ -425,7 +378,6 @@ async def main(port, mode):
     async with websockets.serve(
         lambda ws: handler(ws, mode_ref),
         HOST, port,
-        # allow browser origins
         origins=None
     ):
         try:
