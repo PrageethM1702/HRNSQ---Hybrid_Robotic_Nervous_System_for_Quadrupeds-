@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HRNS-Q Dashboard</title>
+  <link rel="stylesheet" href="../static/css/dashboard.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div>
+        <h1>HRNS-Q Dashboard</h1>
+        <p id="connection">Connecting to telemetry</p>
+      </div>
+      <div class="actions">
+        <div class="source-toggle" aria-label="Telemetry source">
+          <button class="active" data-source="sim">Sim</button>
+          <button data-source="real">Real</button>
+        </div>
+        <button data-command="stand">Stand</button>
+        <button data-command="walk">Walk</button>
+        <button data-command="explore">Explore</button>
+        <button data-command="recover">Recover</button>
+        <button class="danger" data-command="shutdown">E-Stop</button>
+      </div>
+    </header>
+
+    <section class="summary">
+      <article><span>Mode</span><strong id="mode">idle</strong></article>
+      <article><span>Gait</span><strong id="gait">stand</strong></article>
+      <article><span>Speed</span><strong id="speed">0.00 m/s</strong></article>
+      <article><span>Battery</span><strong id="battery">0%</strong></article>
+      <article><span>Risk</span><strong id="risk">0.00</strong></article>
+      <article><span>Safety</span><strong id="safety">safe</strong></article>
+    </section>
+
+    <section class="layout">
+      <article class="panel camera-panel">
+        <div class="panel-title">
+          <h2>Camera Outputs</h2>
+          <span id="camera-status">offline</span>
+        </div>
+        <div class="camera-grid">
+          <figure>
+            <img id="front-camera" alt="Front camera output">
+            <figcaption>Night Vision Camera</figcaption>
+          </figure>
+          <figure>
+            <img id="depth-camera" alt="Depth camera output">
+            <figcaption>ESP32 Stereo Heat View</figcaption>
+          </figure>
+        </div>
+        <div class="metrics two">
+          <div><span>Resolution</span><strong id="camera-resolution">--</strong></div>
+          <div><span>FPS</span><strong id="camera-fps">--</strong></div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-title"><h2>GPS</h2><span id="gps-fix">--</span></div>
+        <div class="metrics two">
+          <div><span>Latitude</span><strong id="gps-lat">--</strong></div>
+          <div><span>Longitude</span><strong id="gps-lon">--</strong></div>
+          <div><span>Altitude</span><strong id="gps-alt">--</strong></div>
+          <div><span>Satellites</span><strong id="gps-sats">--</strong></div>
+          <div><span>Heading</span><strong id="gps-heading">--</strong></div>
+          <div><span>GPS Speed</span><strong id="gps-speed">--</strong></div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-title"><h2>Accelerometer</h2><span>m/s2</span></div>
+        <canvas id="accel-chart" height="120"></canvas>
+        <div class="metrics three">
+          <div><span>X</span><strong id="accel-x">--</strong></div>
+          <div><span>Y</span><strong id="accel-y">--</strong></div>
+          <div><span>Z</span><strong id="accel-z">--</strong></div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-title"><h2>IMU / Attitude</h2><span id="imu-status">--</span></div>
+        <div class="attitude">
+          <div><span>Roll</span><strong id="roll">--</strong></div>
+          <div><span>Pitch</span><strong id="pitch">--</strong></div>
+          <div><span>Yaw</span><strong id="yaw">--</strong></div>
+          <div><span>Tilt</span><strong id="tilt">--</strong></div>
+        </div>
+        <div class="metrics three">
+          <div><span>Gyro X</span><strong id="gyro-x">--</strong></div>
+          <div><span>Gyro Y</span><strong id="gyro-y">--</strong></div>
+          <div><span>Gyro Z</span><strong id="gyro-z">--</strong></div>
+        </div>
+      </article>
+
+      <article class="panel wide">
+        <div class="panel-title"><h2>Foot Pressure And Reflex</h2><span id="last-reflex">none</span></div>
+        <div class="feet" id="feet"></div>
+        <div class="metrics four">
+          <div><span>Reflex Gain</span><strong id="reflex-gain">--</strong></div>
+          <div><span>Threshold</span><strong id="reflex-threshold">--</strong></div>
+          <div><span>Contact Ratio</span><strong id="contact-ratio">--</strong></div>
+          <div><span>Latency</span><strong id="reflex-latency">--</strong></div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-title"><h2>CPG</h2><span id="cpg-frequency">--</span></div>
+        <div class="phase-grid" id="cpg-phase"></div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-title"><h2>Vision AI</h2><span id="vision-confidence">--</span></div>
+        <div class="metrics two">
+          <div><span>Terrain</span><strong id="terrain">--</strong></div>
+          <div><span>Obstacles</span><strong id="obstacles">--</strong></div>
+          <div><span>Nearest</span><strong id="nearest">--</strong></div>
+          <div><span>Flow</span><strong id="flow">--</strong></div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-title"><h2>Navigation</h2><span id="path-state">--</span></div>
+        <div class="metrics two">
+          <div><span>Pose X</span><strong id="pose-x">--</strong></div>
+          <div><span>Pose Y</span><strong id="pose-y">--</strong></div>
+          <div><span>Target</span><strong id="target">--</strong></div>
+          <div><span>Distance</span><strong id="target-distance">--</strong></div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-title"><h2>Power</h2><span id="logic-voltage">--</span></div>
+        <div class="metrics two">
+          <div><span>Voltage</span><strong id="battery-voltage">--</strong></div>
+          <div><span>Current</span><strong id="current">--</strong></div>
+          <div><span>Power</span><strong id="power">--</strong></div>
+          <div><span>Battery</span><strong id="battery-percent">--</strong></div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-title"><h2>Environment</h2><span>sensor hub</span></div>
+        <div class="metrics two">
+          <div><span>Temperature</span><strong id="temperature">--</strong></div>
+          <div><span>Object Temp</span><strong id="object-temp">--</strong></div>
+          <div><span>Humidity</span><strong id="humidity">--</strong></div>
+          <div><span>eCO2</span><strong id="eco2">--</strong></div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-title"><h2>AI Decision</h2><span id="policy">--</span></div>
+        <div class="metrics two">
+          <div><span>Decision</span><strong id="decision">--</strong></div>
+          <div><span>Stability</span><strong id="stability">--</strong></div>
+          <div><span>Inference</span><strong id="inference">--</strong></div>
+          <div><span>Class</span><strong id="terrain-class">--</strong></div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-title"><h2>Communication</h2><span id="packet-sequence">--</span></div>
+        <div class="bus-grid">
+          <span id="can">CAN</span>
+          <span id="i2c">I2C</span>
+          <span id="uart">UART</span>
+          <span id="wifi">WiFi</span>
+        </div>
+      </article>
+
+      <article class="panel wide">
+        <div class="panel-title"><h2>Actuators</h2><span>joint command</span></div>
+        <div class="actuators" id="actuators"></div>
+      </article>
+
+      <article class="panel wide">
+        <div class="panel-title"><h2>System Logs</h2><span id="uptime">--</span></div>
+        <div class="logs" id="logs"></div>
+      </article>
+    </section>
+  </main>
+  <script src="../static/js/dashboard.js"></script>
+</body>
+</html>
