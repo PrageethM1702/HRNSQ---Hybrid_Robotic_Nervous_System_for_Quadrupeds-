@@ -1,0 +1,227 @@
+HRNS-Q/
+│
+├── 0_SYSTEM_OVERVIEW/
+│   ├── HRNSQ_System_Block_Diagram.pdf
+│   ├── HRNSQ_Signal_Flow_Diagram.pdf
+│   ├── HRNSQ_Power_Distribution_Diagram.pdf
+│   └── HRNSQ_Architecture_Description.md
+│
+├── 1_MECHANICAL_SYSTEM/
+│   ├── CAD/
+│   │   ├── chassis/
+│   │   │   ├── chassis_main.step
+│   │   │   ├── battery_mount.step
+│   │   │   └── pcb_mounts.step
+│   │   ├── legs/
+│   │   │   ├── leg_front_left.step
+│   │   │   ├── leg_front_right.step
+│   │   │   ├── leg_rear_left.step
+│   │   │   └── leg_rear_right.step
+│   │   └── joints/
+│   │       ├── hip_joint.step
+│   │       ├── thigh_joint.step
+│   │       └── knee_joint.step
+│   └── BOM/
+│       ├── bearings.csv
+│       ├── shafts.csv
+│       └── fasteners.csv
+│
+├── 2_ACTUATION_SYSTEM/
+│   ├── motors/
+│   │   ├── servo_specs.pdf
+│   │   └── bldc_specs.pdf
+│   ├── drivers/
+│   │   ├── BTS7960/
+│   │   │   ├── schematic.kicad_sch
+│   │   │   └── pcb.kicad_pcb
+│   │   ├── ESC/
+│   │   │   ├── esc_interface.sch
+│   │   │   └── esc_calibration.md
+│   │   └── current_sensing/
+│   │       ├── INA219.sch
+│   │       └── current_filter.sch
+│
+├── 3_POWER_SYSTEM/
+│   ├── battery/
+│   │   ├── battery_pack_config.md
+│   │   └── bms_wiring.png
+│   ├── regulation/
+│   │   ├── buck_24V_to_12V.sch
+│   │   ├── buck_12V_to_5V.sch
+│   │   ├── ldo_3V3.sch
+│   │   └── isolated_dc_dc.sch
+│   ├── pdb/
+│   │   ├── pdb_schematic.kicad_sch
+│   │   ├── pdb_pcb.kicad_pcb
+│   │   └── fuse_table.md
+│   └── monitoring/
+│       ├── voltage_divider.sch
+│       └── current_monitor.sch
+│
+├── 4_SENSING_SYSTEM/
+│   ├── proprioceptive/
+│   │   ├── joint_angle/
+│   │   │   ├── potentiometer.sch
+│   │   │   └── AS5600.sch
+│   │   ├── motor_current/
+│   │   │   └── current_to_adc.sch
+│   │   └── temperature/
+│   │       └── ntc_sensor.sch
+│   ├── exteroceptive/
+│   │   ├── foot_pressure/
+│   │   │   ├── fsr_conditioning.sch
+│   │   │   └── piezo_amplifier.sch
+│   │   ├── distance/
+│   │   │   ├── ultrasonic.sch
+│   │   │   └── tof_VL53L0X.sch
+│   │   ├── vision/
+│   │   │   └── esp32_cam_interface.sch
+│   │   └── imu/
+│   │       └── imu_fusion.sch
+│   └── bio_inspired/
+│       ├── stretch_sensor.sch
+│       └── tactile_array.sch
+│
+├── 5_REFLEX_SYSTEM/
+│   ├── hardware_reflex/
+│   │   ├── comparator_reflex.sch
+│   │   ├── threshold_detector.sch
+│   │   ├── opamp_conditioning.sch
+│   │   └── interrupt_driver.sch
+│   ├── reflex_types/
+│   │   ├── withdrawal_reflex.sch
+│   │   ├── load_reflex.sch
+│   │   ├── slip_reflex.sch
+│   │   └── obstacle_reflex.sch
+│   └── reflex_to_cpg_interface/
+│       ├── reflex_gain_modulator.sch
+│       └── reflex_override_logic.sch
+│
+├── 6_LOW_LEVEL_CONTROL/
+│   ├── stm32/
+│   │   ├── board/
+│   │   │   ├── stm32_core.sch
+│   │   │   └── stm32_pcb.kicad_pcb
+│   │   ├── firmware/
+│   │   │   ├── drivers/
+│   │   │   │   ├── adc.c
+│   │   │   │   ├── pwm.c
+│   │   │   │   ├── can.c
+│   │   │   │   └── i2c.c
+│   │   │   ├── control/
+│   │   │   │   ├── pid.c
+│   │   │   │   ├── impedance.c
+│   │   │   │   └── torque.c
+│   │   │   ├── reflex_interface.c
+│   │   │   └── main.c
+│   │   └── rtos/
+│   │       ├── scheduler.c
+│   │       └── watchdog.c
+│
+├── 7_CPG_SYSTEM/
+│   ├── analog_cpg/
+│   │   ├── half_center_oscillator.sch
+│   │   ├── phase_coupling.sch
+│   │   ├── tl072_output_buffer.sch
+│   │   └── power_filtering.sch
+│   ├── digital_modulation/
+│   │   ├── dac_interface.sch
+│   │   ├── ads1115_monitor.sch
+│   │   └── emi_filter.sch
+│   └── gait_tables/
+│       ├── walk.tbl
+│       ├── trot.tbl
+│       ├── pace.tbl
+│       └── bound.tbl
+│
+├── 8_AI_NEURAL_SYSTEM/
+│   ├── gait_nn/
+│   │   ├── model.py
+│   │   ├── training.py
+│   │   └── sim_env.py
+│   ├── sensor_fusion_nn/
+│   │   ├── dataset/
+│   │   ├── fusion_model.py
+│   │   └── preprocess.py
+│   ├── reflex_modulation_nn/
+│   │   ├── reflex_policy.py
+│   │   └── reward_function.py
+│   ├── vision_nn/
+│   │   ├── perception_node.py      ← Main interface/vision module
+│   │   ├── terrain_classifier.py
+│   │   └── obstacle_detector.py
+│   └── decision_nn/
+│       ├── rl_policy.py
+│       └── state_machine.py
+│
+├── 9_HIGH_LEVEL_COGNITION/
+│   ├── behavior_planner/
+│   │   ├── fsm.yaml
+│   │   ├── behavior_tree.xml
+│   │   └── rl_controller.py
+│   └── task_layer/
+│       ├── navigation.py
+│       └── exploration.py
+│
+├── 10_PERCEPTION/
+│   ├── vision/
+│   │   ├── opencv_pipeline.py
+│   │   └── optical_flow.py
+│   ├── terrain_analysis/
+│   │   └── terrain_classifier.py
+│   └── mapping/
+│       ├── local_map.py
+│       └── height_map.py
+│
+├── 11_LOCALIZATION_NAVIGATION/
+│   ├── visual_odometry.py
+│   ├── imu_fusion.py
+│   └── slam_future/
+│
+├── 12_COMMUNICATION/
+│   ├── internal/
+│   │   ├── can_protocol.md
+│   │   ├── uart_map.md
+│   │   └── i2c_map.md
+│   └── external/
+│       ├── wifi_node.py
+│       ├── bluetooth_node.py
+│       └── telemetry.py
+│
+├── 13_SOFTWARE_FRAMEWORK/
+│   ├── RTOS/
+│   │   └── low_level_tasks/
+│   └── interface/
+│       ├── master_hrnsq.py      ← Launches all modules
+│       ├── dashboard/
+│       │   ├── templates/
+│       │   │   └── dashboard.html
+│       │   └── static/
+│       │       ├── js/
+│       │       └── css/
+│       └── websocket_server.py
+│
+├── 14_SIMULATION_TRAINING/
+│   ├── gazebo/
+│   │   ├── robot.urdf
+│   │   ├── world.world
+│   │   └── plugins/
+│   ├── pybullet/
+│   │   └── hrnsq_env.py
+│   ├── isaac_gym/
+│   │   └── hrnsq_rl_env.py
+│   └── sim_to_real/
+│       ├── domain_randomization.py
+│       └── noise_models.py
+│
+├── 15_SAFETY/
+│   ├── hardware/
+│   │   ├── fuse_layout.sch
+│   │   ├── estop.sch
+│   │   └── thermal_protection.sch
+│   └── software/
+│       ├── watchdog.py
+│       ├── fault_detection.py
+│       └── safe_shutdown.py
+│
+└── README.md
