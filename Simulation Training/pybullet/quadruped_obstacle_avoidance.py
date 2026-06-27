@@ -67,7 +67,6 @@ p.resetDebugVisualizerCamera(
     cameraPitch=-25, cameraTargetPosition=[0, 0, 0.3]
 )
 
-# ── Sinusoidal trot gait ──────────────────────────────────────────────────────
 # Leg order in jointIds blocks: FL=0, FR=1, BL=2, BR=3
 # Trot diagonal pairs: (FL,BR) and (FR,BL) in antiphase
 # Per leg: [abduction, hip, knee]
